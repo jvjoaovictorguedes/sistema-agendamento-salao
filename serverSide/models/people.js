@@ -20,6 +20,7 @@ const People = sequelize.define('people', {
   dat_insert: {
     type: Sequelize.DATE,
     allowNull: false,
+    defaultValue: DATE.NOW,
   },
   cpf: {
     type: Sequelize.STRING,
@@ -35,7 +36,12 @@ const People = sequelize.define('people', {
     type: Sequelize.DATE,
     allowNull: false,
     require: true,
-  }
+  },
+  status: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    require: true,
+    defaultValue: true,
 })
 
 People.belongsTo(PeopleType, { foreignKey: 'id_people_type' });
