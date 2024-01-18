@@ -1,0 +1,44 @@
+const Sequelize = require('sequelize');
+const sequelize = require('../db');
+const PeopleType = require('./peopleType');
+
+const People = sequelize.define('people', {
+  id_people: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true,
+  },
+  id_people_type: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: PeopleType,
+      key: 'id_people_type'
+    }
+  },
+  dat_insert: {
+    type: Sequelize.DATE,
+    allowNull: false,
+  },
+  cpf: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    require: true,
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    require: true,
+  },
+  birth_data: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    require: true,
+  }
+})
+
+People.belongsTo(PeopleType, { foreignKey: 'id_people_type' });
+PeopleType.hasMany(People, { foreignKey: 'id_people_type' });
+
+module.exports = People;
