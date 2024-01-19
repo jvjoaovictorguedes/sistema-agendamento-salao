@@ -1,39 +1,51 @@
 const express = require('express');
 const router = express.Router();
-const ProcedureScheduling = require('../models/procedureSchedule');
 const Procedure = require('../models/procedure');
+const ProcedureScheduling = require('../models/procedureSchedule');
+const Scheduling = require('../models/Scheduling');
+const People = require('../models/people');
 
-router.post('/procedure=:id_procedure/', async (req, res) => {
+router.post('/', async (req, res) => {
   try{
-    const { id_procedure } = req.params
+    const { id_procedure, id_scheduling } = req.body
     const existingProcedure = await Procedure.findByPk(id_procedure)
-    if (!existingProcedure) {
+    const existingScheduling = await Scheduling.findByPk(id_scheduling)
+    if (!existingProcedure || !existingScheduling) {
       return res.status(404).json({ error: true, message: 'Procedure not found.' });
     }
-    const procedureValue = await ProcedureValue.create({
-      ...req.body,
+    console.log(id_procedure, id_scheduling)
+    const procedureValue = await ProcedureScheduling.build({
       id_procedure,
+      id_scheduling
     });
+    procedureValue.save();
     res.json({ procedureValue });
   } catch (err) {
     res.json({ error: true, message: err.message });
   }
 })
 
-router.get('/:id_procedure', async (req, res) => {
+router.get('/:id_people_client', async (req, res) => {
   try {
-    const { id_procedure } = req.params;
-    const existingProcedure = await Procedure.findByPk(id_procedure);
-    
-    if (!existingProcedure) {
-      return res.status(404).json({ error: true, message: 'Procedure not found.' });
-    }
-    const procedureValue = await ProcedureValue.findAll({
+    const { id_people_client } = req.params
+    const scheduling = await Scheduling.findAll({
       where: {
-        id_procedure,
-      },
-    });
-    res.json({ procedureValue });
+        id_people_client,
+      }
+    })
+    const { id_people_professional } = scheduling[0]
+    const people_client = await People.findAll({
+      where: {
+        id_people: id_people_client
+      }
+    })
+    const people_professional = await People.findAll({
+      where: {
+        id_people: id_people_professional
+      }
+    })
+    const procedureSchedule = await ProcedureScheduling.findAll();
+    res.json({ people_client, people_professional, procedureSchedule, scheduling });
   } catch (err) {
     res.status(500).json({ error: true, message: err.message });
   }
