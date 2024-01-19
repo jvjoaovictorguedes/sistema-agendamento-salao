@@ -1,5 +1,5 @@
 const Sequelize  = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../../db');
 const People = require('./people')
 
 const Contact = sequelize.define('contact', {

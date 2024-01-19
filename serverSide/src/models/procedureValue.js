@@ -1,5 +1,5 @@
 const Sequelize  = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../../db');
 const Procedure = require('./procedure')
 
 const ProcedureValue = sequelize.define('procedureValue', {
@@ -27,7 +27,7 @@ const ProcedureValue = sequelize.define('procedureValue', {
   },
   dat_final: {
     type: Sequelize.DATE,
-    allowNull: false,
+    allowNull: true,
   }
 })
 

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../../db');
 const PeopleType = require('./peopleType');
 
 const People = sequelize.define('people', {
@@ -20,7 +20,7 @@ const People = sequelize.define('people', {
   dat_insert: {
     type: Sequelize.DATE,
     allowNull: false,
-    defaultValue: DATE.NOW,
+    defaultValue: Date(),
   },
   cpf: {
     type: Sequelize.STRING,
@@ -42,6 +42,7 @@ const People = sequelize.define('people', {
     allowNull: false,
     require: true,
     defaultValue: true,
+  }
 })
 
 People.belongsTo(PeopleType, { foreignKey: 'id_people_type' });

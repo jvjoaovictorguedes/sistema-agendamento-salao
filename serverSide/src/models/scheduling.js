@@ -1,5 +1,5 @@
 const Sequelize  = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../../db');
 const People = require('./people')
 
 const Scheduling = sequelize.define('scheduling', {
@@ -33,10 +33,6 @@ const Scheduling = sequelize.define('scheduling', {
     type: Sequelize.TIME,
     allowNull: false,
   },
-  dat_insert: {
-    type: Sequelize.DATE,
-    allowNull: false,
-  }
 })
 
 People.hasMany(Scheduling, { foreignKey: 'id_people'});

@@ -1,9 +1,9 @@
 const Sequelize  = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../../db');
 const People = require('./people')
 
 const Address = sequelize.define('address', {
-  address: {
+  id_address: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
@@ -31,7 +31,7 @@ const Address = sequelize.define('address', {
   },
   complement: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: true,
   },
   neighborhood: {
     type: Sequelize.STRING,
