@@ -3,17 +3,14 @@ const router = express.Router();
 const ProcedureValue = require('../models/procedureValue');
 const Procedure = require('../models/procedure');
 
-router.post('/:id_procedure', async (req, res) => {
+router.post('/', async (req, res) => {
   try{
-    const { id_procedure } = req.params
+    const { id_procedure } = req.body
     const existingProcedure = await Procedure.findByPk(id_procedure)
     if (!existingProcedure) {
       return res.status(404).json({ error: true, message: 'Procedure not found.' });
     }
-    const procedureValue = await ProcedureValue.create({
-      ...req.body,
-      id_procedure,
-    });
+    const procedureValue = await ProcedureValue.create(req.body);
     res.json({ procedureValue });
   } catch (err) {
     res.json({ error: true, message: err.message });
