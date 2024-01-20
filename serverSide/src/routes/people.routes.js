@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
     const { id_people_type } = req.body;
 
     if (id_people_type !== 1 && id_people_type !== 2) {
-      return res.status(400).json({ error: true, message: 'Valor inválido para id_people_type' });
+      return res.status(400).json({ error: true, message: 'Not found client or professional' });
     }
 
     const people = await People.create(req.body);
@@ -23,9 +23,20 @@ router.get('/:id_people', async (req, res) => {
   try {
     const { id_people } = req.params;
     const people = await People.findAll({  
-      id_people,
-      status: true,
+      where: {
+        id_people
+      }
     })
+    res.json({ people })
+  } catch (err) {
+    res.json({ error: true, message: err.message });
+  }
+});
+
+
+router.get('/', async (req, res) => {
+  try {
+    const people = await People.findAll()
     res.json({ people })
   } catch (err) {
     res.json({ error: true, message: err.message });

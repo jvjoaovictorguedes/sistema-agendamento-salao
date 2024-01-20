@@ -35,8 +35,8 @@ const Scheduling = sequelize.define('scheduling', {
   },
 })
 
-People.hasMany(Scheduling, { foreignKey: 'id_people'});
-Scheduling.belongsTo(People, { foreignKey: 'id_people'});
+People.hasMany(Scheduling, { foreignKey: 'id_people_client'});
+Scheduling.belongsTo(People, { foreignKey: 'id_people_professional'});
 
 
 

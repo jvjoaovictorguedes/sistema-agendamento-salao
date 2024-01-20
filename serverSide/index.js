@@ -3,11 +3,11 @@ const Init = async () => {
   const People = require('./src/models/people');
   const Contact = require('./src/models/contact');
   const PeopleType = require('./src/models/peopleType')
-  const Procedure = require('./src/models/procedure')
+  const Classification = require('./src/models/Classification')
   const Address = require('./src/models/address')
-  const ProcedureSchedule = require('./src/models/procedureSchedule')
-  const ProcedureValue = require('./src/models/procedureValue')
-  const Scheduling = require('./src/models/Scheduling');
+  const ServiceSchedule = require('./src/models/serviceSchedule')
+  const ServiceValue = require('./src/models/serviceValue')
+  const Scheduling = require('./src/models/scheduling');
   await sequelize.sync({ force: true });
 }
 Init();

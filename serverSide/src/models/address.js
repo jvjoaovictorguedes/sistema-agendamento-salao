@@ -26,7 +26,7 @@ const Address = sequelize.define('address', {
     allowNull: false
   },
   number_address: {
-    type: Sequelize.DECIMAL,
+    type: Sequelize.INTEGER,
     allowNull: true
   },
   complement: {

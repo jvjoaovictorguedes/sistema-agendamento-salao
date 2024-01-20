@@ -17,11 +17,6 @@ const People = sequelize.define('people', {
       key: 'id_people_type'
     }
   },
-  dat_insert: {
-    type: Sequelize.DATE,
-    allowNull: false,
-    defaultValue: Date(),
-  },
   cpf: {
     type: Sequelize.STRING,
     allowNull: false,
