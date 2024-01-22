@@ -1,7 +1,7 @@
-const { Sequelize } = require('sequelize');
-const sequelize = require('../../db');
+const { Sequelize } = require("sequelize");
+const sequelize = require("../../db");
 
-const PeopleType = sequelize.define('peopleType', {
+const PeopleType = sequelize.define("peopleType", {
   id_people_type: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -11,8 +11,7 @@ const PeopleType = sequelize.define('peopleType', {
   people_type: {
     type: Sequelize.STRING,
     allowNull: false,
-  }
-})
-
+  },
+});
 
 module.exports = PeopleType;

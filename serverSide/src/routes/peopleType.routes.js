@@ -1,24 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const PeopleType = require('../models/peopleType');
+const peopleTypeController = require("../controllers/peopleTypeController");
+const peopleTypeMiddleware = require("../middlewares/peopleTypeMiddleware");
 
-router.post('/', async (req, res) => {
-  try{
-    const peopleType = await PeopleType.create(req.body);
-    res.json({ peopleType });
-  } catch (err) {
-    res.json({ error: true, message: err.message });
-  }
-})
+router.post("/", peopleTypeController.InsertPeopleType);
 
-router.get('/', async (req, res) => {
-  try {
-    const peopleType = await PeopleType.findAll()
-    res.json({ peopleType })
-  } catch (err) {
-    res.json({ error: true, message: err.message });
-  }
-})
+router.get(
+  "/:id_people_type",
+  peopleTypeMiddleware.ValidatedPeopleType,
+  peopleTypeController.FindPeopleType
+);
 
+router.get("/", peopleTypeController.FindAllPeopleType);
 
 module.exports = router;

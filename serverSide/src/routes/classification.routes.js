@@ -1,25 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Classification = require('../models/Classification');
+const classificationController = require("../controllers/classificationController");
+const classificationMiddleware = require('../middlewares/classificationMiddleware')
 
+router.post("/", classificationController.InsertClassification);
 
-router.post('/', async (req, res) => {
-  try {
-    const classification = await Classification.create(req.body);
+router.get("/:id_classification", classificationMiddleware.ValidatedClassification, classificationController.FindAllClassification);
 
-    res.json({ classification });
-  } catch (err) {
-    res.json({ error: true, message: err.message });
-  }
-});
-
-router.get('/', async (req, res) => {
-  try {
-    const classification = await Classification.findAll()
-    res.json({ classification })
-  } catch (err) {
-    res.json({ error: true, message: err.message });
-  }
-});
+router.get("/", classificationController.FindClassification);
 
 module.exports = router;

@@ -15,10 +15,6 @@ const InsertAddress = async (req, res) => {
 const PullAddress = async (req, res) => {
   try {
     const { id_people } = req.params;
-    // const existingPeople = await People.findByPk(id_people);
-    // if (!existingPeople) {
-    //   return res.status(404).json({ error: true, message: 'People not found.' });
-    // }
     const addresses = await Address.findAll({
       where: {
         id_people: id_people,
