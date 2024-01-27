@@ -4,6 +4,7 @@ export default function Home() {
   return (
     <>
       <Header />
+      <h1>Oi!</h1>
     </>
   );
 }
