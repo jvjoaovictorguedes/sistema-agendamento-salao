@@ -1,7 +1,7 @@
-const Sequelize  = require('sequelize');
-const sequelize = require('../../db');
+const Sequelize = require("sequelize");
+const sequelize = require("../../db");
 
-const Classification = sequelize.define('classification', {
+const Classification = sequelize.define("classification", {
   id_classification: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -11,7 +11,7 @@ const Classification = sequelize.define('classification', {
   classification_name: {
     type: Sequelize.STRING,
     allowNull: false,
-  }
-})
+  },
+});
 
 module.exports = Classification;

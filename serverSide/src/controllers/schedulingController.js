@@ -17,36 +17,21 @@ const InsertScheduling = async (req, res) => {
   }
 };
 
-const FindSchedulingClient = async (req, res) => {
+const FindScheduling = async (req, res, next) => {
   try {
-    const { id_people_client } = req.params;
-    const scheduling = await Scheduling.findAll({
+    const { id_scheduling } = req.params;
+    const findScheduling = await Scheduling.findAll({
       where: {
-        id_people_client,
+        id_scheduling,
       },
     });
-    res.json({ scheduling });
-  } catch (err) {
-    res.status(500).json({ error: true, message: err.message });
+    return res.json({ findScheduling });
+    next();
+  } catch (error) {
+    res.json({ error: true, message: error.message });
   }
 };
-
-const FindSchedulingProfessional = async (req, res) => {
-  try {
-    const { id_people_professional } = req.params;
-    const scheduling = await Scheduling.findAll({
-      where: {
-        id_people_professional,
-      },
-    });
-    res.json({ scheduling });
-  } catch (err) {
-    res.status(500).json({ error: true, message: err.message });
-  }
-};
-
 module.exports = {
   InsertScheduling,
-  FindSchedulingClient,
-  FindSchedulingProfessional,
+  FindScheduling,
 };

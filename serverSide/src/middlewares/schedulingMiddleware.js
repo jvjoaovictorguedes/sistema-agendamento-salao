@@ -46,36 +46,6 @@ const ValidatedScheduling = async (req, res, next) => {
   next();
 };
 
-const ValidatedClientScheduling = async (req, res, next) => {
-  const { id_people_client } = req.params;
-  const findPeopleClient = await People.findAll({
-    where: {
-      id_people: id_people_client,
-      id_people_type: 2,
-    },
-  });
-  if (findPeopleClient.length == 0) {
-    res.status(404).json({ error: true, message: "Client not Found!" });
-  }
-  next();
-};
-
-const ValidatedProfessionalScheduling = async (req, res, next) => {
-  const { id_people_professional } = req.params;
-  const findPeopleProfessional = await People.findAll({
-    where: {
-      id_people: id_people_professional,
-      id_people_type: 1,
-    },
-  });
-  if (findPeopleProfessional.length == 0) {
-    res.status(404).json({ error: true, message: "Professional not Found!" });
-  }
-  next();
-};
-
 module.exports = {
   ValidatedScheduling,
-  ValidatedClientScheduling,
-  ValidatedProfessionalScheduling,
 };

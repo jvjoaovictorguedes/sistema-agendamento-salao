@@ -2,7 +2,6 @@ import Logo from "../../assets/IMG-20240127-WA0020.jpg";
 import Icon from "@mdi/react";
 import { mdiCalendarCheck, mdiAccountMultiple } from "@mdi/js";
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
 import "../../styles.css";
 
 export default function SideBar() {
@@ -33,7 +32,7 @@ export default function SideBar() {
 
   return (
     <>
-      <sidebar className="d-grid col-2 h-screen">
+      <nav className="d-grid col-2 h-screen">
         <img className="img-fluid px-3 py-4 w-60" src={Logo} alt="Logo" />
         <ul className="absolute top-[260px] p-0 m-0">
           <li>
@@ -106,7 +105,7 @@ export default function SideBar() {
             </Link>
           </li>
         </ul>
-      </sidebar>
+      </nav>
     </>
   );
 }

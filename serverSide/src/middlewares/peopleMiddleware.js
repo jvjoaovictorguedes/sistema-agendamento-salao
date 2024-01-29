@@ -8,7 +8,9 @@ const validatedPeopleType = async (req, res, next) => {
       .json({ error: true, message: "Not found client or professional" });
   }
   const findCpf = await People.findAll({
-    cpf,
+    where: {
+      cpf,
+    },
   });
   console.log(findCpf);
   if (findCpf.length > 0) {
@@ -21,13 +23,13 @@ const validatedPeople = async (req, res, next) => {
   const { id_people } = req.params;
   const findPeople = await People.findAll({
     where: {
-      id_people
-    }
+      id_people,
+    },
   });
   if (findPeople.length == 0) {
     return res.status(404).json({ error: true, message: "People not found!" });
   }
-  console.log(findPeople)
+  console.log(findPeople);
   next();
 };
 

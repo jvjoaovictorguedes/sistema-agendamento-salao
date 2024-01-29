@@ -46,16 +46,16 @@ header small {
   margin-top: -20px;
 }
 
-sidebar {
+nav {
   background-color: var(--pink-color);
 }
 
-sidebar ul li {
+nav ul li {
   list-style: none;
   width: 100%;
 }
 
-sidebar ul li a {
+nav ul li a {
   width: 100%;
   color: #000000;
   opacity: 0.6;
@@ -68,27 +68,27 @@ sidebar ul li a {
   text-decoration: none;
 }
 
-sidebar ul li a.active {
+nav ul li a.active {
   opacity: 1;
   background-color: rgba(255, 174, 158, 0.5);
   transition: 0.5;
 }
 
-sidebar ul li a:focus {
+nav ul li a:focus {
   color: white;
 }
 
-sidebar ul li a:hover {
+nav ul li a:hover {
   opacity: 1;
   background-color: rgba(255, 174, 158, 0.5);
   transition: 0.5;
 }
 
-sidebar ul li a svg {
+nav ul li a svg {
   font-size: 25px;
   margin: 0 15px;
 }
 
-sidebar ul li p {
+nav ul li p {
   font-size: 16px;
 }

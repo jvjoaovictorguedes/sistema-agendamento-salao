@@ -12,7 +12,7 @@ export default function AppRoutes() {
   return (
     <>
       <Header />
-      <div className="d-grid">
+      <div className="flex flex-1">
         <SideBar />
         <Routes>
           <Route path="/" element={<Scheduling />} />

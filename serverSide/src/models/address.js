@@ -1,8 +1,8 @@
-const Sequelize  = require('sequelize');
-const sequelize = require('../../db');
-const People = require('./people')
+const Sequelize = require("sequelize");
+const sequelize = require("../../db");
+const People = require("./people");
 
-const Address = sequelize.define('address', {
+const Address = sequelize.define("address", {
   id_address: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -14,44 +14,28 @@ const Address = sequelize.define('address', {
     allowNull: false,
     references: {
       model: People,
-      key: 'id_people'
-    }
-  },
-  address_type: {
-    type: Sequelize.STRING,
-    allowNull: false,
+      key: "id_people",
+    },
   },
   public_place: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   number_address: {
     type: Sequelize.INTEGER,
-    allowNull: true
+    allowNull: true,
   },
   complement: {
     type: Sequelize.STRING,
     allowNull: true,
   },
-  neighborhood: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  city: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
   zip_code: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  state: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  }
-})
+});
 
-Address.belongsTo(People, { foreignKey: 'id_people' });
-People.hasMany(Address, { foreignKey: 'id_people' });
+Address.belongsTo(People, { foreignKey: "id_people" });
+People.hasMany(Address, { foreignKey: "id_people" });
 
 module.exports = Address;

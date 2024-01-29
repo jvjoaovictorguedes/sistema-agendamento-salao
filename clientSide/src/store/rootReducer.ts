@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
-import scheduling from "./modules/scheduling/reducer";
+import schedulingReducer from "./user/reducer";
 
-export default combineReducers({
-  scheduling,
-});
+const rootReducer = combineReducers({ schedulingReducer });
+
+export default rootReducer;
