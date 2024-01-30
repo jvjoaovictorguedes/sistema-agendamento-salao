@@ -19,12 +19,7 @@ const InsertScheduling = async (req, res) => {
 
 const FindScheduling = async (req, res, next) => {
   try {
-    const { id_scheduling } = req.params;
-    const findScheduling = await Scheduling.findAll({
-      where: {
-        id_scheduling,
-      },
-    });
+    const findScheduling = await Scheduling.findAll();
     return res.json({ findScheduling });
     next();
   } catch (error) {

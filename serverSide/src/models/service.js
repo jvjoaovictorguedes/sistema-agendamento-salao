@@ -1,8 +1,8 @@
-const Sequelize  = require('sequelize');
-const sequelize = require('../../db');
-const Classification = require('./Classification')
+const Sequelize = require("sequelize");
+const sequelize = require("../../db");
+const Classification = require("./Classification");
 
-const Service = sequelize.define('service', {
+const Service = sequelize.define("service", {
   id_service: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -14,17 +14,20 @@ const Service = sequelize.define('service', {
     allowNull: false,
     references: {
       model: Classification,
-      key: 'id_classification',
-    }
+      key: "id_classification",
+    },
   },
   service_name: {
     type: Sequelize.STRING,
     allowNull: false,
-  }
-})
+  },
+  service_duration: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+});
 
-
-Classification.belongsTo(Service, { foreignKey: 'id_classification' })
-Service.hasMany(Classification, { foreignKey: 'id_classification' })
+Classification.belongsTo(Service, { foreignKey: "id_classification" });
+Service.hasMany(Classification, { foreignKey: "id_classification" });
 
 module.exports = Service;

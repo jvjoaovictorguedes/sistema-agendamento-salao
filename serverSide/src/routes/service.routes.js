@@ -1,26 +1,30 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Service = require('../models/service');
+const Service = require("../models/service");
 
-router.post('/', async (req, res) => {
-  try{
-    const { id_classification, service_name } = req.body
+router.post("/", async (req, res) => {
+  try {
+    const { id_classification, service_name, service_duration } = req.body;
     // const existingService = await Service.findByPk(id_service)
     // if (!existingService) {
     //   return res.status(404).json({ error: true, message: 'Service not found.' });
     // }
-    const service = await Service.create({id_classification, service_name});
+    const service = await Service.create({
+      id_classification,
+      service_name,
+      service_duration,
+    });
     res.json({ service });
   } catch (err) {
     res.json({ error: true, message: err.message });
   }
-})
+});
 
-router.get('/:id_classification', async (req, res) => {
+router.get("/:id_classification", async (req, res) => {
   try {
     const { id_classification } = req.params;
     // const existingService = await Service.findByPk(id_service);
-    
+
     // // if (!existingService) {
     // //   return res.status(404).json({ error: true, message: 'Service not found.' });
     // // }
@@ -35,7 +39,7 @@ router.get('/:id_classification', async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const service = await Service.findAll();
     res.json({ service });
@@ -44,4 +48,4 @@ router.get('/', async (req, res) => {
   }
 });
 
-module.exports = router
+module.exports = router;

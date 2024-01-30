@@ -9,6 +9,6 @@ router.post(
   schedulingController.InsertScheduling
 );
 
-router.get("/:id_scheduling", schedulingController.FindScheduling);
+router.get("/", schedulingController.FindScheduling);
 
 module.exports = router;

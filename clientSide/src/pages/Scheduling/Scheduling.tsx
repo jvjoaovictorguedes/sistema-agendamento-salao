@@ -1,33 +1,31 @@
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
+import { Calendar, dayjsLocalizer } from "react-big-calendar";
+import dayjs from "dayjs";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-big-calendar/lib/sass/styles.scss";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-
-const localizer = momentLocalizer(moment);
+import ApiCall from "../../store/SchedulingStore";
 
 export default function Scheduling() {
-  const dispatch = useDispatch();
-
-  const handleDispatch = () => {
-    dispatch({
-      type: "SET_SCHEDULING",
-      payload,
-    });
+  const scheduling: any[] | undefined = [];
+  const durationService: any[] | undefined = [];
+  const localizer = dayjsLocalizer(dayjs);
+  const handleApi = async () => {
+    const response = await ApiCall();
+    scheduling.push(response.scheduling.findScheduling[0].date);
+    durationService.push(response.service["service"][0].service_duration);
+    console.log(scheduling);
+    console.log(durationService);
   };
-
   return (
     <>
       <div className="w-screen col-auto p-5 h-screen overflow-auto text-white">
         <div className="w-full">
           <div className="d-block p-8">
-            <button onClick={handleDispatch}>Clique em mim!</button>
+            <button onClick={handleApi}>Clique em mim!</button>
             <h2 className="mb-4 mt-0">Agendamentos</h2>
             <Calendar
               localizer={localizer}
-              events={[]}
-              defaultView="week"
+              events={scheduling}
+              defaultView="month"
               popup={true}
               selectable={true}
               style={{
@@ -37,8 +35,6 @@ export default function Scheduling() {
                 background: "#FFFFFF",
                 color: "#000000",
               }}
-              startAccessor="start"
-              endAccessor="end"
             />
           </div>
         </div>
