@@ -1,51 +1,96 @@
-const People = require("../models/people");
 const Scheduling = require("../models/scheduling");
 
-const ValidatedScheduling = async (req, res, next) => {
-  const { id_people_client, id_people_professional, date, time } = req.body;
-  const findPeopleClient = await People.findAll({
-    where: {
-      id_people: id_people_client,
-      id_people_type: 2,
-    },
-  });
-  if (!date || !id_people_client || !id_people_professional || !time) {
-    return res
-      .status(400)
-      .json({ error: true, message: "Information is Missing." });
+const validatedScheduling = async (req, res, next) => {
+  try {
+    const { scheduling_id } = req.params;
+    const scheduling = await Scheduling.findAll({
+      where: {
+        scheduling_id,
+      },
+    });
+    if (!scheduling) {
+      return res.status(400).json({
+        message: "Scheduling not found",
+      });
+    }
+    next();
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
   }
-  const scheduledDate = new Date(date);
-  if (scheduledDate.getDay() === 0 || scheduledDate.getDay() === 1) {
-    return res
-      .status(400)
-      .json({ error: true, message: "We do not work on Sundays or Mondays." });
+};
+
+const validatedInsertScheduling = async (req, res, next) => {
+  try {
+    const {
+      client_id,
+      professional_id,
+      service_id,
+      dat_hours_init,
+      dat_hours_final,
+      status,
+    } = req.body;
+    if (
+      !client_id ||
+      professional_id ||
+      !service_id ||
+      !dat_hours_init ||
+      !dat_hours_final
+    ) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
+    const scheduling = await Scheduling.findAll({
+      where: {
+        client_id,
+        professional_id,
+        service_id,
+        dat_hours_init,
+        dat_hours_final,
+        status,
+      },
+    });
+    const schedulingTime = await Scheduling.findAll({
+      where: {
+        service_id,
+        dat_hours_init,
+        dat_hours_final,
+      },
+    });
+    console.log(scheduling);
+    if (scheduling.length > 0 || schedulingTime.length > 0) {
+      return res.status(400).json({
+        message: "Scheduling already exists",
+      });
+    }
+    next();
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
   }
-  const findPeopleProfessional = await People.findAll({
-    where: {
-      id_people: id_people_professional,
-      id_people_type: 1,
-    },
-  });
-  const findTime = await Scheduling.findAll({
-    where: {
-      id_people_professional,
-      time,
-      date,
-    },
-  });
-  if (findTime.length != 0) {
-    return res
-      .status(400)
-      .json({ error: true, message: "Time Already Scheduled" });
+};
+
+const validatedAllScheduling = async (req, res, next) => {
+  try {
+    const scheduling = await Scheduling.findAll();
+    if (!scheduling) {
+      return res.status(400).json({
+        message: "Scheduling not found",
+      });
+    }
+    next();
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
   }
-  if (findPeopleClient == 0 || findPeopleProfessional == 0) {
-    return res
-      .status(404)
-      .json({ error: true, message: "Client or Professional not Found!" });
-  }
-  next();
 };
 
 module.exports = {
-  ValidatedScheduling,
+  validatedScheduling,
+  validatedInsertScheduling,
+  validatedAllScheduling,
 };

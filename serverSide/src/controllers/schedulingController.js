@@ -1,78 +1,78 @@
 const Scheduling = require("../models/scheduling");
 const Service = require("../models/service");
-const moment = require("moment");
+
+const FindScheduling = async (req, res) => {
+  try {
+    const { scheduling_id } = req.params;
+    const scheduling = await Scheduling.findAll({
+      where: {
+        scheduling_id,
+      },
+    });
+    const { service_id } = scheduling[0];
+    const service = await Service.findAll({
+      where: {
+        service_id,
+      },
+    });
+    const { name_service } = service[0];
+    if (!scheduling) {
+      return res.status(400).json({
+        message: "Scheduling not found",
+      });
+    }
+    return res.json({ scheduling, name_service });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 
 const InsertScheduling = async (req, res) => {
   try {
-    const { id_people_client, id_people_professional, date, time, dat_insert } =
-      req.body;
+    const {
+      client_id,
+      professional_id,
+      service_id,
+      dat_hours_init,
+      dat_hours_final,
+      status,
+    } = req.body;
     const scheduling = await Scheduling.create({
-      id_people_client,
-      dat_insert,
-      id_people_professional,
-      date,
-      time,
+      client_id,
+      professional_id,
+      service_id,
+      dat_hours_init,
+      dat_hours_final,
+      status,
     });
-    res.json({ scheduling });
-  } catch (err) {
-    res.status(500).json({ error: true, message: err.message });
+    return res.json({ scheduling });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
-const FindScheduling = async (__req, res) => {
+const FindAllScheduling = async (__req, res) => {
   try {
-    const findScheduling = await Scheduling.findAll();
-    return res.json({ findScheduling });
-  } catch (error) {
-    res.json({ error: true, message: error.message });
-  }
-};
-
-const SumDate = async (__req, res) => {
-  try {
-    const findDateInitial = await Scheduling.findAll();
-
-    const datesAndTimes = findDateInitial.map((item) => ({
-      date: item.date,
-      time: item.time,
-    }));
-
-    const findDurations = await Service.findAll();
-
-    const durationsInMinutes = findDurations.map(({ service_duration }) => {
-      const convertToMinutes = (duration) => {
-        const [hours, minutes] = duration.split(":");
-        return parseInt(hours, 10) * 60 + parseInt(minutes, 10);
-      };
-      
-      return convertToMinutes(service_duration);
+    const scheduling = await Scheduling.findAll();
+    const service = await Service.findAll({
+      where: {
+        service_id: scheduling[0].service_id,
+      },
     });
-    const nameService = findDurations.map((item => item.service_name));
-
-    const results = datesAndTimes.map(({ date, time }, index) => {
-      const datInit = moment(date, "YYYY-MM-DD").add(moment.duration(time));
-      const durationMinutes = durationsInMinutes[index];
-
-      const datFinal = datInit
-        .clone()
-        .add(durationMinutes, "minutes")
-        .toISOString();
-        
-
-      return {
-        datInit: datInit.toISOString(),
-        datFinal: datFinal,
-        
-      };
-    });
-    res.json({ results, nameService });
+    return res.json({ scheduling, service });
   } catch (error) {
-    res.json({ error: true, message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
 module.exports = {
-  InsertScheduling,
   FindScheduling,
-  SumDate,
+  InsertScheduling,
+  FindAllScheduling,
 };

@@ -1,41 +1,56 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../../db");
-const People = require("./people");
+const Client = require("./clients");
+const Service = require("./service");
+const Professional = require("./professional");
 
 const Scheduling = sequelize.define("scheduling", {
-  id_scheduling: {
+  scheduling_id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
-  id_people_client: {
+  client_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: People,
-      key: "id_people",
+      model: Client,
+      key: "client_id",
     },
   },
-  id_people_professional: {
+  professional_id: {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: People,
-      key: "id_people",
+      model: Professional,
+      key: "professional_id",
     },
   },
-  date: {
+  service_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: Service,
+      key: "service_id",
+    },
+  },
+  dat_hours_init: {
     type: Sequelize.DATE,
     allowNull: false,
   },
-  time: {
-    type: Sequelize.TIME,
+  dat_hours_final: {
+    type: Sequelize.DATE,
     allowNull: false,
+  },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: "agendado",
   },
 });
 
-People.hasMany(Scheduling, { foreignKey: "id_people_client" });
-Scheduling.belongsTo(People, { foreignKey: "id_people_professional" });
+// People.hasMany(Scheduling, { foreignKey: "id_people_client" });
+// Scheduling.belongsTo(People, { foreignKey: "id_people_professional" });
 
 module.exports = Scheduling;

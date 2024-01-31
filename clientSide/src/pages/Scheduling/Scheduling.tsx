@@ -2,25 +2,33 @@ import { Calendar, dayjsLocalizer } from "react-big-calendar";
 import dayjs from "dayjs";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-big-calendar/lib/sass/styles.scss";
-import ApiCall from "../../store/SchedulingStore";
+import { ApiCall, useSchedulingStore } from "../../store/SchedulingStore";
+import { useEffect } from "react";
 
 export default function Scheduling() {
-  const scheduling: any[] | undefined = [];
-  const durationService: any[] | undefined = [];
   const localizer = dayjsLocalizer(dayjs);
-  const handleApi = async () => {
-    const response = await ApiCall();
-    scheduling.push(response.scheduling.findScheduling[0].date);
-    durationService.push(response.service["service"][0].service_duration);
-    console.log(scheduling);
-    console.log(durationService);
-  };
+  const { scheduling, addScheduling } = useSchedulingStore();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const newArray = await ApiCall();
+        newArray.forEach((item) => {
+          addScheduling(item);
+        });
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="w-screen col-auto p-5 h-screen overflow-auto text-white">
         <div className="w-full">
           <div className="d-block p-8">
-            <button onClick={handleApi}>Clique em mim!</button>
             <h2 className="mb-4 mt-0">Agendamentos</h2>
             <Calendar
               localizer={localizer}
@@ -34,6 +42,7 @@ export default function Scheduling() {
                 padding: "10px",
                 background: "#FFFFFF",
                 color: "#000000",
+                margin: "10px",
               }}
             />
           </div>

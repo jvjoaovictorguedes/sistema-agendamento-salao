@@ -1,28 +1,34 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../../db");
 
-const Service = sequelize.define("service", {
-  service_id: {
+const User = sequelize.define("user", {
+  user_id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
-  name_service: {
+  password_hash: {
     type: Sequelize.STRING,
     allowNull: false,
+    require: true,
   },
-  estimated_duration: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
+    require: true,
   },
-  price: {
-    type: Sequelize.INTEGER,
+  role: {
+    type: Sequelize.STRING,
     allowNull: false,
+    require: true,
+  },
+  status: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    require: true,
+    defaultValue: true,
   },
 });
 
-// Classification.belongsTo(Service, { foreignKey: "id_classification" });
-// Service.hasMany(Classification, { foreignKey: "id_classification" });
-
-module.exports = Service;
+module.exports = User;

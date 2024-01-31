@@ -5,10 +5,20 @@ const schedulingMiddleware = require("../middlewares/schedulingMiddleware");
 
 router.post(
   "/",
-  schedulingMiddleware.ValidatedScheduling,
+  schedulingMiddleware.validatedInsertScheduling,
   schedulingController.InsertScheduling
 );
 
-router.get("/", schedulingController.FindScheduling);
+router.get(
+  "/:scheduling_id",
+  schedulingMiddleware.validatedScheduling,
+  schedulingController.FindScheduling
+);
+
+router.get(
+  "/",
+  schedulingMiddleware.validatedAllScheduling,
+  schedulingController.FindAllScheduling
+);
 
 module.exports = router;
